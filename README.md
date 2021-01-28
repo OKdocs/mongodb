@@ -2,7 +2,7 @@
 how to use mongodb (with go (what else???))
 
 ```go
-	import "go.mongodb.org/mongo-driver/mongo"
+import "go.mongodb.org/mongo-driver/mongo"
 ```
 
 ```sh
@@ -73,6 +73,8 @@ c.InsertMany(ctx, []object, options...)
 ```
 objects can be structs whichs field names have `bson` defined or `map[string]interface{}`
 
+also `FindOneAndReplace`
+
 ### read
 ```go
 c.FindOne(ctx, filter, options...)    
@@ -87,7 +89,31 @@ c.Aggregate()                            // <- regular aggregate
 
 ### update
 ```go
-
+c.UpdateOne(ctx, filter, options...)
+c.UpdateMany(ctx, filter, options...)
 ```
 
+```go
+opts := options.Update()
+	opts.SetUpsert(true)
+c.UpdateOne(ctx, primitive.M{"_id": ID, "age": 10}, primitive.M{
+		"$setOnInsert": primitive.M{
+			"createdAt": time.Now(),
+		},
+		"$set": primitive.M{
+			"test": 123,
+		},
+	}, opts)
+
+```
+full upsert example
+
+also `FindOneAndUpdate`
+
 ### delete
+```go
+c.DeleteOne(ctx, primitive.M{"key": "value"}) // primitive.M{key:value}
+c.DeleteMany(ctx, filter, options...}
+```
+also `FindOneAndDelete`
+
