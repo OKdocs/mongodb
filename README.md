@@ -132,3 +132,17 @@ c.DeleteMany(ctx, filter, options...}
 ```
 also `FindOneAndDelete`
 
+## admin
+```go
+c.CountDocuments(ctx, primitive.M{"age": 12}) // IXSCAN
+```
+counts all documents one by one through a giant b-tree, takes O(n) time
+
+many not sound long but can be VERY long in humongous (n -> inf?) databases
+
+can take a filter, what can be handy
+```go
+n, err := c.EstimatedDocumentCount()
+```
+returns the index of its current document count
+Instant - No scan required
