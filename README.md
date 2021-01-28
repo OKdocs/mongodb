@@ -80,7 +80,22 @@ also `FindOneAndReplace`
 c.FindOne(ctx, filter, options...)    
 c.Find(ctx, filter, options...)                                 
 ```
+```go
+nam := &NAM{}
+	if err := c.FindOne(ctx, primitive.M{"_id": ID}).Decode(nam); err != nil {
+		panic(err)
+	}
+```
+full search and unmarshal example
 
+```go
+nammers := make([]NAM,0)
+cur, err := c.Find(ctx, primitive.M{}, opts)
+if err := cur.All(ctx, &nammers); err != nil {
+	panic(err)
+}
+```
+full search and unmarshal all example 
 
 #### aggregate
 ```go
