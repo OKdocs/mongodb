@@ -97,6 +97,17 @@ if err := cur.All(ctx, &nammers); err != nil {
 ```
 full search and unmarshal all example 
 
+```go
+projection := bson.D{
+		{key, 1},
+		{"_id", 0},
+	}
+	// projections only work on first level
+	opts.SetProjection(projection)
+```
+
+projections can be used to return only one field from a find() operation and are added as the options parameter
+
 #### aggregate
 ```go
 c.Aggregate()                            // <- regular aggregate
